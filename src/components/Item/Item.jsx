@@ -19,7 +19,7 @@ const shorten = (text) => {
 
 function Item({name, date, description, coverPath }) {
 
-  const imgPath = `https://www.themoviedb.org/t/p/w188_and_h282_bestv2${coverPath}`;
+  const imgPath = `https://image.tmdb.org/t/p/w200${coverPath}`;
   let releaseDate = 'Release date unknown';
   if (date) releaseDate = format( new Date(date), 'MMMM d, yyyy');
 
@@ -46,7 +46,7 @@ Item.defaultProps = {
   name: 'Some epic movie',
   date: '02-02-2002',
   description: 'Some movie description',
-  coverPath: 'null'
+  coverPath: ''
 };
 
 Item.propTypes = {

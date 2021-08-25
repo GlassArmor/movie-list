@@ -5,7 +5,7 @@
 }
 
 body {
-  background-color: #E5E5E5;
+  background-color: #E5E5E5 !important;
 }
 
 .wrapper {
@@ -13,4 +13,10 @@ body {
   margin: 0 auto;
   background-color: #FFFFFF;
   min-height: 100vh;
+}
+
+.loading {
+  margin: 0 auto;
+  padding: 45vh 50px;
+  text-align: center;
 }
