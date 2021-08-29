@@ -11,6 +11,7 @@ body {
 .wrapper {
   width: 1010px;
   margin: 0 auto;
+  padding: 12px 0;
   background-color: #FFFFFF;
   min-height: 100vh;
 }
@@ -19,4 +20,14 @@ body {
   margin: 0 auto;
   padding: 45vh 50px;
   text-align: center;
+}
+
+.pagination_wrapper, .error_wrapper {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px auto;
+}
+
+.error_wrapper {
+  width: 90%;
 }

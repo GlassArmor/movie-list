@@ -2,6 +2,7 @@ import React from 'react';
 import './ItemList.css';
 
 import PropTypes from 'prop-types';
+import { Alert } from 'antd';
 
 import Item from '../Item';
 
@@ -9,9 +10,15 @@ function ItemList( { movieList } ) {
 
   if (!movieList) {
     return (
-      <div>NULL</div>
+      <div>null</div>
     );
-  }
+  };
+
+  if ( movieList.length === 0 ) {
+    return (
+        <Alert message='WHOOPS! Nothing to show you, try another search! Or not.' type='warning' />
+    )
+  };
 
   const movies = movieList.map( (movie) =>
     <Item key={ movie.id }
