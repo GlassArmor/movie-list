@@ -3,11 +3,12 @@ import './Item.css';
 
 import format from 'date-fns/format';
 import PropTypes from 'prop-types';
+import nullCover from './null_cover.jpeg';
 
-const shorten = (text) => {
-  if (text.length < 200) return text;
-  let index = 200;
-  for ( let i = 199; i < text.length; i++) {
+const shorten = (text, length) => {
+  if (text.length < length) return text;
+  let index = length;
+  for ( let i = length-1; i < text.length; i++) {
     if (text[i] === ' ') {
       index = i;
       break;
@@ -19,7 +20,8 @@ const shorten = (text) => {
 
 function Item({name, date, description, coverPath }) {
 
-  const imgPath = `https://image.tmdb.org/t/p/w200${coverPath}`;
+  let imgPath = `https://image.tmdb.org/t/p/w200${coverPath}`;
+  if ( !coverPath ) imgPath = nullCover;
   let releaseDate = 'Release date unknown';
   if (date) releaseDate = format( new Date(date), 'MMMM d, yyyy');
 
@@ -28,14 +30,14 @@ function Item({name, date, description, coverPath }) {
       <img className='item-cover' alt='Movie Cover'
            src={imgPath} />
       <div className='item-info'>
-        <h2 className='item-name'>{name}</h2>
+        <h2 className='item-name'>{ shorten(name, 100) }</h2>
         <div className='item-date'>{ releaseDate }</div>
         <div className='item-genres'>
           <div className='item-genre'>Action</div>
           <div className='item-genre'>Drama</div>
         </div>
         <p className='item-description'>
-          { shorten(description) }
+          { shorten(description, 200-name.length) }
         </p>
       </div>
     </li>
