@@ -22,10 +22,14 @@ function ItemList( { movieList } ) {
 
   const movies = movieList.map( (movie) =>
     <Item key={ movie.id }
+          id={ movie.id }
           name={ movie.title }
           date={ movie.release_date }
           coverPath={movie.poster_path}
-          description={ movie.overview } />
+          description={ movie.overview }
+          rating={ movie.vote_average }
+          genres={ movie.genre_ids }
+          myRating={ movie.rating } />
   );
 
   return (
@@ -40,21 +44,7 @@ ItemList.propTypes = {
 };
 
 ItemList.defaultProps = {
-  movieList: [
-  {
-    id: 0,
-    title: 'Some title',
-    release_date: '01-01-2001',
-    poster_path: 'path',
-    overview: 'Example movie description'
-  },
-  {
-    id: 1,
-    title: 'Some title',
-    release_date: '01-01-2001',
-    poster_path: 'path',
-    overview: 'Example movie description'
-  }]
+  movieList: []
 };
 
 export default ItemList;
