@@ -1,14 +1,11 @@
-/* eslint-disable */
-
 import React from 'react';
 import './Item.css';
-import { AppConsumer } from '../../services/AppContext/AppContext';
 
 import format from 'date-fns/format';
 import PropTypes from 'prop-types';
 import { Rate } from 'antd';
 import nullCover from './null_cover.jpeg';
-
+import { AppConsumer } from '../../services/AppContext/AppContext';
 
 const shorten = (text, length) => {
   if (text.length < length) return text;
@@ -41,9 +38,9 @@ function Item({ id, name, date, description, coverPath, rating, genres, myRating
 
     <AppConsumer>
       { ({ genreList, rateMovie, ratedFilms }) => {
-        const displayGenres = genres.map((id) => {
-           return (<div className='item-genre' key={id}>{ genreList[id] }</div>);
-        });
+        const displayGenres = genres.map((genreId) =>
+            (<div className='item-genre' key={genreId}>{ genreList[genreId] }</div>)
+        );
         let initRating = 0;
         if ( myRating ) initRating = myRating;
         if ( ratedFilms.[id] ) initRating = ratedFilms.[id];
@@ -80,7 +77,10 @@ Item.defaultProps = {
   date: '02-02-2002',
   description: 'Some movie description',
   coverPath: '',
-  rating: 0.0
+  rating: 0.0,
+  id: 42,
+  myRating: 0.0,
+  genres: []
 };
 
 Item.propTypes = {
@@ -88,7 +88,10 @@ Item.propTypes = {
   date: PropTypes.string,
   description: PropTypes.string,
   coverPath: PropTypes.string,
-  rating: PropTypes.number
+  rating: PropTypes.number,
+  id: PropTypes.number,
+  myRating: PropTypes.number,
+  genres: PropTypes.arrayOf(PropTypes.number)
 };
 
 export default Item;

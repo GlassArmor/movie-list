@@ -4,3 +4,9 @@
   flex-wrap: wrap;
   justify-content: space-around;
 }
+.item-list-message {
+  width: 90%;
+  display: flex;
+  justify-content: space-around;
+  margin: 10px auto;
+}

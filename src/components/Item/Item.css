@@ -72,3 +72,33 @@
   position: absolute;
   bottom: 10px;
 }
+
+@media (width < 600px) {
+  .item {
+    width: 100%;
+    height: auto;
+  }
+  .item-cover {
+    width: 60px;
+    height: 91px;
+    position: absolute;
+    top: 6px;
+    left: 10px;
+  }
+  .item-info {
+    width: 100%;
+  }
+  .item-description {
+    width: 100%;
+    padding-bottom: 10px;
+  }
+  .item-date, .item-header, .item-genres {
+    margin-left: 60px;
+  }
+  .item-genres {
+    width: 80%;
+  }
+  .item-rate-stars {
+    right: 10px;
+  }
+}

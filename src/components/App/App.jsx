@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { Component } from 'react';
 import './App.css';
 
@@ -38,8 +37,8 @@ export default class App extends Component {
     this.searchMovies = (query, pageNumber) => {
       const { selected, sessionID } = this.state;
       if ( selected === 'Rated' ) {
-        this.setState({ isLoading: true, currentPage: 1 });
-        this.client.getRatedMovies( sessionID )
+        this.setState({ isLoading: true });
+        this.client.getRatedMovies( sessionID, pageNumber )
                    .then((res) => {
                      this.setState( {
                        movieList: res.results,
@@ -76,7 +75,7 @@ export default class App extends Component {
     };
 
     this.selectMode = (mode) => {
-      this.setState({ selected: mode });
+      this.setState({ selected: mode, currentPage: 1 });
     };
 
     this.rateMovie = (id, value) => {
@@ -85,44 +84,35 @@ export default class App extends Component {
                  .then(()=>{
                               this.ratedFilms.[id] = value;
                             })
-                 .catch((err) => { console.log(err) });
+                 .catch((err) => { this.setError(err.message) });
     };
 
     this.componentDidMount = () => {
       this.client.initGuestSession().then( (id) => {
         this.setState({ sessionID: id, selected: 'Search' });
         this.client.getGenres().then( (res) => {
-          const pattern = res.reduce( (acc, obj) => {
-            return ({ ...acc, [obj.id]: obj.name })
-          }, {});
+          const pattern = res.reduce( (acc, obj) =>
+            ({ ...acc, [obj.id]: obj.name })
+          , {});
           this.setState({ genreList: pattern });
         }).then( ()=> {
           this.searchMovies('Star Wars', 1);
         });
+      }).catch((err) => {
+        this.setError(err.message);
       });
     };
 
     this.componentDidUpdate = ( prevProps, prevState ) => {
       const { queryNow, selected } = this.state;
-      if ( selected != prevState.selected ) this.searchMovies(queryNow, 1);
+      if ( selected !== prevState.selected ) this.searchMovies(queryNow, 1);
     };
 
   }
 
   render() {
 
-    const { movieList, isLoading, errorCatched, results, currentPage, selected, genreList } = this.state;
-    const loadingBox = (
-      <div className='loading'>
-        <Spin size='large' />
-      </div>);
-    if ( !selected ) return ( <div className='wrapper'>{loadingBox}</div>);
-    let loading = null;
-    if (isLoading && !errorCatched) {
-      loading = loadingBox;
-    }
-    let listView = null;
-    if (!isLoading && !errorCatched ) listView = <ItemList movieList={movieList} />;
+    const { movieList, isLoading, errorCatched, results, currentPage, selected, genreList, sessionID } = this.state;
 
     let errorBox = null;
     if ( errorCatched ) {
@@ -138,13 +128,28 @@ export default class App extends Component {
       };
     };
 
+    if ( errorCatched && !sessionID ) return ( <div className='wrapper'>{errorBox}</div>);
+
+    const loadingBox = (
+      <div className='loading'>
+        <Spin size='large' />
+      </div>);
+
+    if ( !selected ) return ( <div className='wrapper'>{loadingBox}</div>);
+    let loading = null;
+    if (isLoading && !errorCatched) {
+      loading = loadingBox;
+    }
+    let listView = null;
+    if (!isLoading && !errorCatched ) listView = <ItemList movieList={movieList} mode={selected} />;
+
     let searchField = null;
     if ( selected === 'Search') {
       searchField = (<SearchField searchMovies = { debounce(this.searchMovies, 700) }/>);
     };
 
     return (
-      <AppProvider value={ { genreList: genreList,
+      <AppProvider value={ { genreList,
                              rateMovie: this.rateMovie,
                              ratedFilms: this.ratedFilms } }>
         <div className='wrapper'>

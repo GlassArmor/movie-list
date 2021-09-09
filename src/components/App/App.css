@@ -31,3 +31,9 @@ body {
 .error_wrapper {
   width: 90%;
 }
+
+@media (width < 600px) {
+  .wrapper {
+    width: 100%;
+  }
+}

@@ -6,7 +6,7 @@ import { Alert } from 'antd';
 
 import Item from '../Item';
 
-function ItemList( { movieList } ) {
+function ItemList( { movieList, mode } ) {
 
   if (!movieList) {
     return (
@@ -14,9 +14,23 @@ function ItemList( { movieList } ) {
     );
   };
 
+  if ( movieList.length === 0 && mode==='Rated' ) {
+    return (
+        <div className='item-list-message'>
+          <Alert
+            message='First rate something to display here :)'
+            type='info' />
+        </div>
+    )
+  };
+
   if ( movieList.length === 0 ) {
     return (
-        <Alert message='WHOOPS! Nothing to show you, try another search! Or not.' type='warning' />
+        <div className='item-list-message'>
+          <Alert
+            message='WHOOPS! Nothing to show you, try another search! Or not.'
+            type='warning' />
+        </div>
     )
   };
 
@@ -40,11 +54,13 @@ function ItemList( { movieList } ) {
 }
 
 ItemList.propTypes = {
-  movieList: PropTypes.arrayOf( PropTypes.object )
+  movieList: PropTypes.arrayOf( PropTypes.object ),
+  mode: PropTypes.oneOf(['Search', 'Rated', null])
 };
 
 ItemList.defaultProps = {
-  movieList: []
+  movieList: [],
+  mode: null
 };
 
 export default ItemList;

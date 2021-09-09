@@ -1,7 +1,7 @@
-/* eslint-disable */
-
-import React, { Component } from 'react';
+import React from 'react';
 import './ModeSelector.css';
+
+import PropTypes from 'prop-types';
 
 function ModeSelector ({ selected , selectMode }) {
 
@@ -12,12 +12,22 @@ function ModeSelector ({ selected , selectMode }) {
 
   return (
     <div className = 'selector_wrapper'>
-      <button className={ searchButton }
+      <button className={ searchButton } type='button'
               onClick={ () => { selectMode('Search') } } >Search</button>
-            <button className={ ratedButton }
+            <button className={ ratedButton } type='button'
               onClick={ () => { selectMode('Rated') } } >Rated</button>
     </div>
   );
+};
+
+ModeSelector.defaultProps = {
+  selected: null,
+  selectMode: ()=>{}
+};
+
+ModeSelector.propTypes = {
+  selected: PropTypes.oneOf(['Search', 'Rated', null]),
+  selectMode: PropTypes.func
 };
 
 export default ModeSelector;

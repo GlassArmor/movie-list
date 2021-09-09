@@ -32,8 +32,8 @@ export default class ApiClient {
       return body.guest_session_id;
     };
 
-    this.getRatedMovies = async ( sessionID ) => {
-      const url = `https://api.themoviedb.org/3/guest_session/${sessionID}/rated/movies?api_key=${appApiKey}`;
+    this.getRatedMovies = async ( sessionID, page ) => {
+      const url = `https://api.themoviedb.org/3/guest_session/${sessionID}/rated/movies?api_key=${appApiKey}&page=${page}`;
       const res = await fetch( url );
       if ( !res.ok ) throw new Error(`Could not load data, error code: ${res.status}`);
       const body = await res.json();
